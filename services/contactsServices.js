@@ -1,7 +1,7 @@
 import Contact from "../models/Contact.js";
 
 export function listContacts() {
-  return Contact.find();
+  return Contact.find({},"-createdAt -updatedAt");
 }
 
 export function getContactById(contactId) {
