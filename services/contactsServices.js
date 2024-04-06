@@ -1,50 +1,24 @@
-import fs from "fs/promises";
-import { nanoid } from "nanoid";
-import path from "path";
-const contactsPath = path.resolve("db", "contacts.json");
+import Contact from "../models/Contact.js";
 
+export function listContacts() {
+  return Contact.find();
+}
 
+export function getContactById(contactId) {
+  const data = Contact.findById(contactId);
+  return data;
+}
 
-export async function listContacts() {
-  const data = await fs.readFile(contactsPath);
-  return JSON.parse(data);
-};
+export function addContact(data) {
+  return Contact.create(data);
+}
 
-export async function getContactById(contactId) {
-  const allContacts = await listContacts();
-  const result = allContacts.find((item) => item.id === contactId);
-  return result || null;
-};
+export function removeContact(contactId) {
+  return Contact.findByIdAndDelete(contactId);}
 
-export async function addContact(data) {
-  const contact = await listContacts();
-  const newContact = {
-    id: nanoid(),
-   ...data
-  };
-  contact.push(newContact);
-  await fs.writeFile(contactsPath, JSON.stringify(contact, null, 2));
-  return newContact;
-};
-
-export async function removeContact(contactId) {
-  const allContacts = await listContacts();
-  const index = allContacts.findIndex((item) => item.id === contactId);
-  if (index === -1) {
-    return null;
-  }
-  const [result] = allContacts.splice(index, 1);
-  await fs.writeFile(contactsPath, JSON.stringify(allContacts, null, 2));
-  return result;
-};
-
-export async function updateContactByid(contactId , data ){
-  const allContacts = await listContacts();
-  const index = allContacts.findIndex((item) => item.id === contactId);
-  if (index === -1) {
-    return null;
-  }
-  allContacts[index]={...allContacts[index],...data};
-  await fs.writeFile(contactsPath, JSON.stringify(allContacts, null, 2));
-  return allContacts[index]
+export  function updateContactByid(contactId , data ){
+    return  Contact.findByIdAndUpdate(contactId , data)
+}
+export  function updateFavoriteByid(contactId , data ){
+    return  Contact.findByIdAndUpdate(contactId , data)
 }
