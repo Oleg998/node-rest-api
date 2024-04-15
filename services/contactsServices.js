@@ -20,8 +20,8 @@ export function removeContact(filter) {
   return Contact.findOneAndDelete(filter)}
 
 export  function updateContactByid(filter , data ){
-    return  Contact.findByIdAndUpdate(filter , data)
+    return  Contact.findOneAndUpdate(filter , data)
 }
-export  function updateFavoriteByid(contactId , data ){
-    return  Contact.findByIdAndUpdate(contactId , data)
+export  function updateFavoriteByid(filter , data ){
+    return  Contact.findOneAndUpdate(filter , data)
 }

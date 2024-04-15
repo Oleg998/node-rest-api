@@ -74,8 +74,9 @@ export const updateContact = async (req, res, next) => {
 
 export const getOneFavoriteContact = async(req , res, next)=> {
     try {
+      const {_id:owner}=req.user
       const id =req.params.id
-      const result = await contactsService.updateFavoriteByid(id , req.body)  
+      const result = await contactsService.updateFavoriteByid({owner , _id:id} , req.body)  
       if (!result){
         throw HttpError(404);
       }   
