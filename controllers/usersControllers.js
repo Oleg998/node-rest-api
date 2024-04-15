@@ -70,7 +70,7 @@ export const singnout = async (req, res, next) => {
   try {
     const {_id} = req.user;
     await usersService.updateUser({_id}, { token: "" });
-    res.status(204);
+    res.status(204).send();
   } catch (error) {
     next(error);
   }
@@ -81,7 +81,7 @@ export const updateUserSubscription = async(req,res , next)=>{
     const {subscription} = req.body
     if( Object.keys(req.body).length === 0) { throw HttpError(400, "Body must have at least one field");}
     const {_id} = req.user;
-    const result= await usersService.updateUser({_id},{subscription})
+    await usersService.updateUser({_id},{subscription})
     res.status(200).json({ message: "Updated User Subscription Successful" });
   }
   catch (error) {
