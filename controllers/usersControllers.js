@@ -6,9 +6,12 @@ import gravatar from "gravatar";
 import fs from "fs/promises";
 import path from "path";
 import Jimp from "jimp";
+import { nanoid } from "nanoid";
+import sendEmail from "../helpers/sendMail.js";
+import "dotenv/config";
 const avatarPost = path.resolve("public", "avatars");
 
-const { JWT_SECRET } = process.env;
+const { JWT_SECRET, PROJECT_URL } = process.env;
 
 export const signup = async (req, res, next) => {
   try {
@@ -23,11 +26,20 @@ export const signup = async (req, res, next) => {
       throw HttpError(409, "Email in use");
     }
     const hashPassword = await bcrypt.hash(password, 10);
+    const verificationToken = nanoid();
+    const verificationEmail = {
+      to: email,
+      subject: "Verification Email",
+      html: `<a target="_blank" href="${PROJECT_URL}/users/verify/${verificationToken}">Click Verification Email</a>`,
+    };
+    await sendEmail(verificationEmail);
     const newUser = await usersService.signup({
       ...req.body,
       avatarURL,
       password: hashPassword,
+      verificationToken,
     });
+
     res.status(201).json({
       user: {
         email: newUser.email,
@@ -47,6 +59,9 @@ export const signin = async (req, res, next) => {
     if (!user) {
       throw HttpError(401, "Email or password is wrong");
     }
+    if (!user.verify) {
+      throw HttpError(401, "User don't Verify");
+    }
     const passwordCompare = await bcrypt.compare(password, user.password);
     if (!passwordCompare) {
       throw HttpError(401, "Email or password is wrong");
@@ -65,6 +80,44 @@ export const signin = async (req, res, next) => {
         subscription: "starter",
       },
     });
+  } catch (error) {
+    next(error);
+  }
+};
+export const verifyUser = async (req, res, next) => {
+  try {
+    const { verificationToken } = req.params;
+    const user = await usersService.findUser({ verificationToken });
+    if (!user) {
+      throw HttpError(404, "User not found");
+    }
+    await usersService.updateUser(
+      { _id: user._id },
+      { verify: true, verificationToken: "" }
+    );
+    res.status(200).json({ message: "Verification successful" });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const resentVerify = async (req, res, next) => {
+  try {
+    const { email } = req.body;
+    const user = await usersService.findUser({ email });
+    if (!user) {
+      throw HttpError(404, "User not found");
+    }
+    if (user.verify) {
+      throw HttpError(400, "Verification has already been passed");
+    }
+    const verificationEmail = {
+      to: email,
+      subject: "Verification Email",
+      html: `<a target="_blank" href="${PROJECT_URL}/users/verify/${user.verificationToken}">Click Verification Email</a>`,
+    };
+    await sendEmail(verificationEmail);
+    res.status(200).json({ message: "Verification email sent" });
   } catch (error) {
     next(error);
   }
@@ -115,13 +168,11 @@ export const updateUserAvatar = async (req, res, next) => {
     const avatarURL = path.join("avatars", filename);
     Jimp.read(oldPath, (err, img) => {
       if (err) throw err;
-      img
-        .resize(250, 250) 
-        .write(newPath);
+      img.resize(250, 250).write(newPath);
     });
     await fs.rename(oldPath, newPath);
-    await usersService.updateUser({ _id }, {avatarURL});
-    res.status(200).json({avatarURL:`${avatarURL}`});
+    await usersService.updateUser({ _id }, { avatarURL });
+    res.status(200).json({ avatarURL: `${avatarURL}` });
   } catch (error) {
     next(error);
   }

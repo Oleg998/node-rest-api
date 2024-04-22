@@ -13,3 +13,8 @@ export const userUpdateSubscription = Joi.object({
 
 })
 
+export const verifySchema = Joi.object({
+    email:Joi.string().pattern(emailRegepxp).required(), 
+
+})
+
