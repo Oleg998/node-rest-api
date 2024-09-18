@@ -7,7 +7,6 @@ import fs from "fs/promises";
 import path from "path";
 import Jimp from "jimp";
 import { nanoid } from "nanoid";
-import sendEmail from "../helpers/sendMail.js";
 import "dotenv/config";
 const avatarPost = path.resolve("public", "avatars");
 
@@ -27,12 +26,7 @@ export const signup = async (req, res, next) => {
     }
     const hashPassword = await bcrypt.hash(password, 10);
     const verificationToken = nanoid();
-    const verificationEmail = {
-      to: email,
-      subject: "Verification Email",
-      html: `<a target="_blank" href="${PROJECT_URL}/users/verify/${verificationToken}">Click Verification Email</a>`,
-    };
-    await sendEmail(verificationEmail);
+    
     const newUser = await usersService.signup({
       ...req.body,
       avatarURL,
