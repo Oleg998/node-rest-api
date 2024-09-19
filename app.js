@@ -31,8 +31,9 @@ app.use((err, req, res, next) => {
 
 mongoose.connect(process.env.DB_HOST)
 .then(()=>{
+  const PORT = process.env.PORT
   console.log("Database connection successful");
-  app.listen(3000, () => {
+  app.listen(PORT, () => {
     console.log("Server is running. Use our API on port: 3000")
   });
 })
