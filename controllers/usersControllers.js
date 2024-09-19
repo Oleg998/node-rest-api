@@ -78,44 +78,9 @@ export const signin = async (req, res, next) => {
     next(error);
   }
 };
-export const verifyUser = async (req, res, next) => {
-  try {
-    const { verificationToken } = req.params;
-    const user = await usersService.findUser({ verificationToken });
-    if (!user) {
-      throw HttpError(404, "User not found");
-    }
-    await usersService.updateUser(
-      { _id: user._id },
-      { verify: true, verificationToken: "" }
-    );
-    res.status(200).json({ message: "Verification successful" });
-  } catch (error) {
-    next(error);
-  }
-};
 
-export const resentVerify = async (req, res, next) => {
-  try {
-    const { email } = req.body;
-    const user = await usersService.findUser({ email });
-    if (!user) {
-      throw HttpError(404, "User not found");
-    }
-    if (user.verify) {
-      throw HttpError(400, "Verification has already been passed");
-    }
-    const verificationEmail = {
-      to: email,
-      subject: "Verification Email",
-      html: `<a target="_blank" href="${PROJECT_URL}/users/verify/${user.verificationToken}">Click Verification Email</a>`,
-    };
-    await sendEmail(verificationEmail);
-    res.status(200).json({ message: "Verification email sent" });
-  } catch (error) {
-    next(error);
-  }
-};
+
+
 
 export const getCurrent = async (req, res, next) => {
   try {
