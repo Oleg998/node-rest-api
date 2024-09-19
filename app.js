@@ -38,5 +38,6 @@ mongoose.connect(process.env.DB_HOST)
   });
 })
 .catch (error =>{
+  console.error("Database connection error:", error.message);
   process.exit(1);
-   console.error(error.message);})
+   })
