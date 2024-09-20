@@ -3,7 +3,7 @@ import morgan from "morgan";
 import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
-import contactsRouter from "./routes/contactsRouter.js";
+import eventRouter from "./routes/eventsRouter.js";
 import authRouter from "./routes/authRouter.js";
 
 const {DB_HOST} = process.env;
@@ -15,7 +15,7 @@ app.use(cors());
 app.use(express.json());
 app.use(express.static("public"));
 app.use("/users", authRouter)
-app.use("/api/contacts", contactsRouter);
+app.use("/api/events", eventRouter);
 
 
 
