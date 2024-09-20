@@ -6,13 +6,13 @@ import {
   createContact,
   updateContact,
   getOneFavoriteContact , 
-} from "../controllers/contactsControllers.js";
+} from "../controllers/evantsControllers.js";
 import validId from "../middlewares/isValidId.js";
 import authenticate from "../middlewares/authenticate.js";
 
 
 import validateBody from "../helpers/validateBody.js";
-import { createContactSchema, updateContactSchema ,updateFavoriteSchema } from "../schemas/contactsSchemas.js";
+import { createContactSchema, updateContactSchema ,updateFavoriteSchema } from "../schemas/evantsSchemas.js";
 
 const contactsRouter = express.Router();
 
