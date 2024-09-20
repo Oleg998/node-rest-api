@@ -12,7 +12,7 @@ import { createEventSchema, updateEventSchema  } from "../schemas/evantsSchemas.
 
 const eventRouter = express.Router();
 
-eventRouter.use(authenticate);
+
 
 eventRouter.get("/", getAllEvents);
 
