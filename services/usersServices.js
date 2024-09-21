@@ -1,7 +1,12 @@
 import User from "../models/User.js";
-export const findUser = find=>User.findOne(find);
 
-export const signup =data=>User.create(data);
+export function listUsers(filter) {
+    return User.find(filter);
+  }
 
-export const updateUser = (filter , data ) =>User.findOneAndUpdate(filter, data)
+  export function addUser(data) {
+    return User.create(data);
+  }
+
+
 

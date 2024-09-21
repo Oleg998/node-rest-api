@@ -3,9 +3,13 @@ import {handleSaveError, setUpdateSetting} from "./hooks.js"
 import{emailRegepxp,subscriptionList} from "../costants/user-constants.js"
 
 const userSchema = new Schema ({
-    password: {
+      name: {
         type: String,
-        required: [true, 'Password is required'],
+        required: [true, 'Name is required'],
+      },
+      date: {
+        type: String,
+        required: [true, 'Date is required'],
       },
       email: {
         type: String,
@@ -16,27 +20,8 @@ const userSchema = new Schema ({
       subscription: {
         type: String,
         enum: subscriptionList,
-        default: "starter"
       },
-      token: {
-        type: String,
-        default: null,
-      },
-      avatarURL:{
-        type: String,
-      } ,
-      verify: {
-        type: Boolean,
-        default: false,
-      },
-      verificationToken: {
-        type: String,
-        required: [true, 'Verify token is required'],
-      },
-       owner: {
-       type: Schema.Types.ObjectId,
-      ref: 'user',
-       },
+      
 },{versionKey:false , timestamps:true})
 
 const User=model("users" ,userSchema );

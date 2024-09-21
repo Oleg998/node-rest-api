@@ -1,20 +1,11 @@
-import Joi from "joi"; 
+import Joi, { date } from "joi"; 
 
 import { emailRegepxp,subscriptionList } from "../costants/user-constants.js";
 
 export const userSignupSchema = Joi.object({
-    password:Joi.string().min(1).required(),
+    name:Joi.string().min(1).required(),
     email:Joi.string().pattern(emailRegepxp).required(), 
-
+    date:Joi.string().min(1).required(),
 })
 
-export const userUpdateSubscription = Joi.object({
-    subscription:Joi.string().valid(...subscriptionList).required(),
-
-})
-
-export const verifySchema = Joi.object({
-    email:Joi.string().pattern(emailRegepxp).required(), 
-
-})
 
