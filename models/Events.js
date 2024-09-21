@@ -3,6 +3,10 @@ import { handleSaveError, setUpdateSetting } from "./hooks.js";
 
 const eventShema = new Schema(
   {
+    event: {
+      type: String,
+      required:true,
+    },
     title: {
       type: String,
       required:true,
