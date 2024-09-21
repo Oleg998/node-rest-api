@@ -3,8 +3,7 @@ import {
   getAllEvents,
      createEvent
   } from "../controllers/evantsControllers.js";
-import validId from "../middlewares/isValidId.js";
-import authenticate from "../middlewares/authenticate.js";
+
 
 
 import validateBody from "../helpers/validateBody.js";

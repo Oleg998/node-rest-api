@@ -4,7 +4,7 @@ import cors from "cors";
 import mongoose from "mongoose";
 import "dotenv/config";
 import eventRouter from "./routes/eventsRouter.js";
-import authRouter from "./routes/authRouter.js";
+import userRouter from "./routes/userRouter.js";
 
 const {DB_HOST} = process.env;
 
