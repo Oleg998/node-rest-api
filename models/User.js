@@ -3,6 +3,10 @@ import {handleSaveError, setUpdateSetting} from "./hooks.js"
 import{emailRegepxp,subscriptionList} from "../costants/user-constants.js"
 
 const userSchema = new Schema ({
+  event: {
+    type: String,
+    required:true,
+  },
       name: {
         type: String,
         required: [true, 'Name is required'],
