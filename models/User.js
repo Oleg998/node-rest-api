@@ -7,7 +7,7 @@ const userSchema = new Schema ({
         type: String,
         required: [true, 'Name is required'],
       },
-      date: {
+      birthday: {
         type: String,
         required: [true, 'Date is required'],
       },
