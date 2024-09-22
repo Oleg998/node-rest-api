@@ -1,10 +1,20 @@
 import * as usersService from "../services/usersServices.js";
 import HttpError from "../helpers/HttpError.js";
 
-export const getAllUsers = async (req, res, next) => {
+export const getUserbyEvent = async (req, res, next) => {
   const id = req.params.id
   try {
     const result = await usersService.listUsers({event:id});
+    res.json({ result });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const getAllUsers = async (req, res, next) => {
+
+  try {
+    const result = await usersService.listUsers();
     res.json({ result });
   } catch (error) {
     next(error);
