@@ -1,10 +1,10 @@
 import * as usersService from "../services/usersServices.js";
 import HttpError from "../helpers/HttpError.js";
-import { ObjectId } from 'mongodb';
+
 export const getAllUsers = async (req, res, next) => {
   const id = req.params.id
   try {
-    const result = await usersService.listUsers({event: ObjectId(id) });
+    const result = await usersService.listUsers({event:id});
     res.json({ result });
   } catch (error) {
     next(error);
