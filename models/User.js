@@ -19,7 +19,7 @@ const userSchema = new Schema ({
         type: String,
         match:emailRegepxp,
         required: [true, 'Email is required'],
-        unique: true,
+        unique: false,
       },
       subscription: {
         type: String,
