@@ -1,5 +1,5 @@
 import express from "express"
-import {getAllUsers ,createUser } from "../controllers/usersControllers.js";
+import {getAllUsers ,createUser,getUserbyEvent } from "../controllers/usersControllers.js";
 
 
 
