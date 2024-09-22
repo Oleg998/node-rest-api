@@ -5,8 +5,9 @@ import {getAllUsers ,createUser } from "../controllers/usersControllers.js";
 
 const userRouter = express.Router();
 
-userRouter.get("/current", getAllUsers);
+userRouter.get("/:id", getAllUsers);
 
+// contactsRouter.get("/:id", validId, getOneEvent);
 
 
 userRouter.post("/register",createUser);
