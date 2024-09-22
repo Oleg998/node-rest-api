@@ -4,7 +4,7 @@ import HttpError from "../helpers/HttpError.js";
 export const getAllUsers = async (req, res, next) => {
   const id = req.params.id
   try {
-    const result = await usersService.listUsers(id);
+    const result = await usersService.listUsers({id});
     res.json({ result });
   } catch (error) {
     next(error);
