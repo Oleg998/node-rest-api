@@ -30,8 +30,6 @@ const userSchema = new Schema ({
 
 const User=model("users" ,userSchema );
 
-userSchema.post("save",handleSaveError);
-userSchema.pre("findOneAndUpdate" , setUpdateSetting)
-userSchema.post("findOneAndUpdate",handleSaveError);
+
 
 export default User
