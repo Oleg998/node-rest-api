@@ -20,7 +20,6 @@ export const getAllUsers = async (req, res, next) => {
     next(error);
   }
 };
-
 export const createUser = async (req, res, next) => {
   try {
     const result = await usersService.addUser({
@@ -28,6 +27,10 @@ export const createUser = async (req, res, next) => {
     });
     res.status(201).json(result);
   } catch (error) {
-    next(error);
+    if (error.code === 11000) { 
+      return res.status(400).json({ message: 'Email and event combination already exists' });
+    }
+    next(error); 
   }
 };
+
