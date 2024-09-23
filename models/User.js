@@ -27,8 +27,10 @@ const userSchema = new Schema ({
       },
       
 },{versionKey:false , timestamps:true})
-
+userSchema.index({ event: 1, email: 1 }, { unique: true });
 const User=model("users" ,userSchema );
+
+
 
 
 
